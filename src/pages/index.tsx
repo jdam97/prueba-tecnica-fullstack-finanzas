@@ -1,3 +1,15 @@
-const Home = () => <main className=''>Home</main>;
+import { GetServerSideProps } from 'next';
 
-export default Home;
+//Redirecciono al login al iniciar la app
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    redirect: {
+      destination: '/login',
+      permanent: false,
+    },
+  };
+};
+
+export default function Home() {
+  return null;
+}
