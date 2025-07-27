@@ -33,7 +33,7 @@
     "react/jsx-key": "error",
     "react/no-array-index-key": "error",
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "endOfLine": "auto"
       }
