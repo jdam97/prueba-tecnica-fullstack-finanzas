@@ -1,11 +1,11 @@
 // src/lib/auth/index.ts
-import { betterAuth } from 'better-auth';
-import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { prisma } from '@/lib/auth/prisma';
+import { betterAuth } from "better-auth";
+import { prismaAdapter } from "better-auth/adapters/prisma";
+import { prisma } from "@/lib/auth/prisma";
 
 const auth = betterAuth({
   database: prismaAdapter(prisma, {
-    provider: 'postgresql',
+    provider: "postgresql",
     user: {
       select: {
         id: true,
@@ -16,8 +16,8 @@ const auth = betterAuth({
         createdAt: true,
         updatedAt: true,
         role: true,
-      }
-    }
+      },
+    },
   }),
   socialProviders: {
     github: {
@@ -26,14 +26,14 @@ const auth = betterAuth({
     },
   },
   callbacks: {
-    async session({ session, user }:any) {
+    async session({ session, user }: any) {
       return {
         ...session,
         user: {
           ...session.user,
           role: user.role as "ADMIN" | "USER",
         },
-      }
+      };
     },
   },
   user: {
@@ -48,4 +48,3 @@ const auth = betterAuth({
 });
 
 export default auth;
-

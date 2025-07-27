@@ -5,7 +5,7 @@ import auth from "@/lib/auth";
 
 function convertHeaders(incomingHeaders: any): Headers {
   const headers = new Headers();
-  
+
   Object.entries(incomingHeaders).forEach(([key, value]) => {
     if (value !== undefined) {
       const headerValue = Array.isArray(value) ? value[0] : String(value);
@@ -14,13 +14,16 @@ function convertHeaders(incomingHeaders: any): Headers {
       }
     }
   });
-  
+
   return headers;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log('=== TEST USER & SESSION DEBUG ===');
-  
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  console.log("=== TEST USER & SESSION DEBUG ===");
+
   try {
     // 1. Primero obtener el usuario desde la base de datos (tu código original)
     const user = await prisma.user.findUnique({
@@ -42,92 +45,96 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log("✅ Usuario desde la base de datos:", user);
 
     // 2. Ahora probar la sesión de Better Auth
-    console.log('\n=== PROBANDO SESIÓN BETTER AUTH ===');
-    
+    console.log("\n=== PROBANDO SESIÓN BETTER AUTH ===");
+
     // Ver headers originales
-    console.log('Headers originales:', req.headers);
-    console.log('Cookies:', req.headers.cookie);
-    
+    console.log("Headers originales:", req.headers);
+    console.log("Cookies:", req.headers.cookie);
+
     // Verificar si hay cookie de sesión
     const cookieHeader = req.headers.cookie;
-    const hasBetterAuthCookie = cookieHeader?.includes('better-auth') || 
-                               cookieHeader?.includes('session') ||
-                               cookieHeader?.includes('auth');
-    console.log('¿Tiene cookie de Better Auth?:', hasBetterAuthCookie);
-    
+    const hasBetterAuthCookie =
+      cookieHeader?.includes("better-auth") ||
+      cookieHeader?.includes("session") ||
+      cookieHeader?.includes("auth");
+    console.log("¿Tiene cookie de Better Auth?:", hasBetterAuthCookie);
+
     // Convertir headers
     const webHeaders = convertHeaders(req.headers);
-    console.log('Headers convertidos:', Array.from(webHeaders.entries()));
-    
+    console.log("Headers convertidos:", Array.from(webHeaders.entries()));
+
     // Intentar obtener la sesión
     let sessionResult = null;
     let sessionError = null;
-    
+
     try {
       sessionResult = await auth.api.getSession({
-        headers: webHeaders
+        headers: webHeaders,
       });
-      console.log('✅ Session resultado:', sessionResult);
+      console.log("✅ Session resultado:", sessionResult);
     } catch (error) {
       sessionError = error;
-      console.error('❌ Error al obtener sesión:', error.message);
+      console.error("❌ Error al obtener sesión:", error.message);
     }
 
     // 3. También probar método alternativo
-    console.log('\n=== PROBANDO MÉTODO ALTERNATIVO ===');
+    console.log("\n=== PROBANDO MÉTODO ALTERNATIVO ===");
     let alternativeSession = null;
-    
+
     try {
       alternativeSession = await auth.api.getSession({
         headers: {
-          cookie: req.headers.cookie || '',
-          authorization: req.headers.authorization || '',
-          'user-agent': req.headers['user-agent'] || '',
-          host: req.headers.host || '',
-        }
+          cookie: req.headers.cookie || "",
+          authorization: req.headers.authorization || "",
+          "user-agent": req.headers["user-agent"] || "",
+          host: req.headers.host || "",
+        },
       });
-      console.log('✅ Sesión método alternativo:', alternativeSession);
+      console.log("✅ Sesión método alternativo:", alternativeSession);
     } catch (altError) {
-      console.error('❌ Error método alternativo:', altError.message);
+      console.error("❌ Error método alternativo:", altError.message);
     }
 
     // 4. Respuesta completa con toda la información
     return res.status(200).json({
       // Usuario desde DB
       userFromDB: user,
-      
+
       // Información de sesión
       session: {
         betterAuthSession: sessionResult,
         alternativeSession: alternativeSession,
         sessionError: sessionError?.message || null,
       },
-      
+
       // Debug info
       debug: {
         hasCookies: !!cookieHeader,
         hasBetterAuthCookie,
-        cookieContent: cookieHeader || 'No cookies',
+        cookieContent: cookieHeader || "No cookies",
         headersReceived: Object.keys(req.headers),
         method: req.method,
       },
-      
+
       // Comparación
       comparison: {
         userEmailFromDB: user.email,
-        userEmailFromSession: sessionResult?.user?.email || alternativeSession?.user?.email || null,
+        userEmailFromSession:
+          sessionResult?.user?.email || alternativeSession?.user?.email || null,
         roleFromDB: user.role,
-        roleFromSession: sessionResult?.user?.role || alternativeSession?.user?.role || null,
-        sessionsMatch: (sessionResult?.user?.email || alternativeSession?.user?.email) === user.email,
-      }
+        roleFromSession:
+          sessionResult?.user?.role || alternativeSession?.user?.role || null,
+        sessionsMatch:
+          (sessionResult?.user?.email || alternativeSession?.user?.email) ===
+          user.email,
+      },
     });
-
   } catch (error) {
     console.error("💥 Error en el servidor:", error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: "Error interno del servidor",
       details: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
     });
   }
 }

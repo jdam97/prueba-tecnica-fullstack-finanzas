@@ -1,7 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getDashboardSummaryService, getRecentTransactionsService} from "../services/dashboard.service";
+import {
+  getDashboardSummaryService,
+  getRecentTransactionsService,
+} from "../services/dashboard.service";
 
-export async function getDashboardSummaryController(req: NextApiRequest, res: NextApiResponse) {
+export async function getDashboardSummaryController(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const userId = req.query.userId as string | undefined;
 
   try {
@@ -13,7 +19,10 @@ export async function getDashboardSummaryController(req: NextApiRequest, res: Ne
   }
 }
 
-export async function getRecentTransactionsController(req: NextApiRequest, res: NextApiResponse) {
+export async function getRecentTransactionsController(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const userId = req.query.userId as string | undefined;
 
   try {

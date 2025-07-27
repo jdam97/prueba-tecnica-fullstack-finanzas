@@ -2,8 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "@/lib/auth/client";
-import {Card,CardContent,CardHeader,CardTitle} from "@/components/ui/card";
-import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -63,11 +70,11 @@ export default function MovementsPage() {
   }, [isPending, user]);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
-      <div className="flex justify-between items-center mb-8">
+    <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4'>
+      <div className='flex justify-between items-center mb-8'>
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Movimientos</h1>
-          <p className="text-gray-600">
+          <h1 className='text-3xl font-bold text-gray-900'>Movimientos</h1>
+          <p className='text-gray-600'>
             {user?.role === "ADMIN"
               ? "Gestiona todos los movimientos"
               : "Gestiona tus movimientos"}
@@ -95,7 +102,9 @@ export default function MovementsPage() {
             <TableBody>
               {movements.map((movement) => (
                 <TableRow key={movement.id}>
-                  <TableCell className="font-medium">{movement.concept}</TableCell>
+                  <TableCell className='font-medium'>
+                    {movement.concept}
+                  </TableCell>
                   <TableCell
                     className={`font-bold ${
                       movement.type === "INCOME"
@@ -122,11 +131,11 @@ export default function MovementsPage() {
                   {user?.role === "ADMIN" && (
                     <TableCell>
                       <Button
-                        variant="outline"
-                        size="sm"
+                        variant='outline'
+                        size='sm'
                         onClick={() => deleteMovement(movement.id)}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className='h-4 w-4' />
                       </Button>
                     </TableCell>
                   )}

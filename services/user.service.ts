@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/auth/prisma"
+import { prisma } from "@/lib/auth/prisma";
 
 type UpdateUserInput = {
   name?: string;
@@ -14,15 +14,18 @@ export async function getAllUsersService() {
 }
 
 //Edit user service by id
-  export async function editUserByIdService(userId: string, data: UpdateUserInput) {
-    return await prisma.user.update({
-      where: { id: userId },
-      data,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-      },
-    });
-  }
+export async function editUserByIdService(
+  userId: string,
+  data: UpdateUserInput
+) {
+  return await prisma.user.update({
+    where: { id: userId },
+    data,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
+}

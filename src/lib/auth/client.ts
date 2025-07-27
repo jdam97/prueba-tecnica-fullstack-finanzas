@@ -7,7 +7,7 @@ export const authClient = createAuthClient({
 export const { useSession, signIn, signOut } = authClient;
 
 export const useSessionWithRole = () => {
-  const session = useSession()
+  const session = useSession();
   return {
     ...session,
     data: session.data
@@ -19,5 +19,5 @@ export const useSessionWithRole = () => {
           },
         }
       : null,
-  }
-}
+  };
+};

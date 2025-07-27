@@ -1,9 +1,15 @@
 import { any } from "better-auth";
-import { getAllUsersService,editUserByIdService } from "../services/user.service";
+import {
+  getAllUsersService,
+  editUserByIdService,
+} from "../services/user.service";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 //Get all users Controller
-export async function getAllUsersController(req: NextApiRequest, res: NextApiResponse) {
+export async function getAllUsersController(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   try {
     const users = await getAllUsersService();
     return res.status(200).json(users);
@@ -12,7 +18,10 @@ export async function getAllUsersController(req: NextApiRequest, res: NextApiRes
   }
 }
 
-export async function editUserByIdController(req: NextApiRequest, res: NextApiResponse) {
+export async function editUserByIdController(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { id } = req.body;
   const { name, role, email } = req.body;
 

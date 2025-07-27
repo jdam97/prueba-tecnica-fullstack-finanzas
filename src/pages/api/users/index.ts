@@ -1,15 +1,23 @@
-import {editUserByIdController, getAllUsersController} from '../../../../controllers/user.controller'
-import { requireAdmin, AuthenticatedRequest } from "../../../../middleware/middleware";
-import type {NextApiResponse } from "next";
+import {
+  editUserByIdController,
+  getAllUsersController,
+} from "../../../../controllers/user.controller";
+import {
+  requireAdmin,
+  AuthenticatedRequest,
+} from "../../../../middleware/middleware";
+import type { NextApiResponse } from "next";
 
 //Get all users
-export default async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
+export default async function handler(
+  req: AuthenticatedRequest,
+  res: NextApiResponse
+) {
   //Verificamos los permisos
-  const hasPermission = await requireAdmin(req, res);  
+  const hasPermission = await requireAdmin(req, res);
   if (!hasPermission) return;
 
-  if (req.method === "GET") return await getAllUsersController(req,res);
+  if (req.method === "GET") return await getAllUsersController(req, res);
   if (req.method === "PUT") return await editUserByIdController(req, res);
-    return res.status(405).end();
-  }
-
+  return res.status(405).end();
+}

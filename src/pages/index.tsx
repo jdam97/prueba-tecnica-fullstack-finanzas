@@ -1,10 +1,10 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps } from "next";
 
 //Redirecciono al login al iniciar la app
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     redirect: {
-      destination: '/login',
+      destination: "/login",
       permanent: false,
     },
   };

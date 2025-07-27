@@ -2,12 +2,14 @@ import { getDashboardSummaryController } from "../../../../controllers/dashboard
 import type { NextApiRequest, NextApiResponse } from "next";
 import { requireAuth } from "../../../../middleware/middleware";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
-  if (req.method === "GET"){
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === "GET") {
     const hasPermission = await requireAuth(req, res);
     if (!hasPermission) return;
     return await getDashboardSummaryController(req, res);
-  } 
+  }
   return res.status(405).end();
 }
