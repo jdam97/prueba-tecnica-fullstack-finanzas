@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
@@ -25,7 +25,7 @@ export default function UsersPage() {
 
   useEffect(() => {
     if (!isPending && user?.role !== "ADMIN") {
-      router.push("/dashboard")
+      router.push("/unauthorized")
     }
   }, [isPending, user, router])
 
@@ -45,7 +45,9 @@ export default function UsersPage() {
     }
   }, [user])
 
-  if (!user || user.role !== "ADMIN") return null
+  if (!session || session.user?.role !== "ADMIN") {
+    return null
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">

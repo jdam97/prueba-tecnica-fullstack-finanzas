@@ -33,9 +33,6 @@ import { useSession, signOut } from "@/lib/auth/client";
     }
   };
 
-  //sumary user
-
-
   //movimientos recientes
   const getRecentMovements = async (user: any) => {
     try {
