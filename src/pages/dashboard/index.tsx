@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { auth } from '@/lib/auth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { DollarSign, TrendingDown, TrendingUp, Users } from 'lucide-react';
 import { useSession, signOut } from "@/lib/auth/client";

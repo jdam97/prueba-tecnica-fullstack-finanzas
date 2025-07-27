@@ -13,7 +13,7 @@ export async function getAllUsersController(req: NextApiRequest, res: NextApiRes
 }
 
 export async function editUserByIdController(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
+  const { id } = req.body;
   const { name, role, email } = req.body;
 
   if (typeof id !== "string") {

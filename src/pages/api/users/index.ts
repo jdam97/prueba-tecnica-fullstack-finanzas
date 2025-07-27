@@ -1,4 +1,4 @@
-import {getAllUsersController} from '../../../../controllers/user.controller'
+import {editUserByIdController, getAllUsersController} from '../../../../controllers/user.controller'
 import { requireAdmin, AuthenticatedRequest } from "../../../../middleware/middleware";
 import type {NextApiResponse } from "next";
 
@@ -9,5 +9,7 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
   if (!hasPermission) return;
 
   if (req.method === "GET") return await getAllUsersController(req,res);
+  if (req.method === "PUT") return await editUserByIdController(req, res);
     return res.status(405).end();
   }
+

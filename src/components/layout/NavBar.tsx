@@ -12,7 +12,7 @@ export default function NavBar() {
     const { data: session, isPending: loading } = useSession();
     const navigation = [
         { name: "Dashboard", href: "/dashboard", icon: Home, roles: ["ADMIN", "USER"] },
-        { name: "Movimientos", href: "/dashboard/movements", icon: TrendingUp, roles: ["ADMIN", "USER"] },
+        { name: "Movimientos", href: "/dashboard/transactions", icon: TrendingUp, roles: ["ADMIN", "USER"] },
         { name: "Usuarios", href: "/dashboard/users", icon: Users, roles: ["ADMIN"] },
         { name: "Reportes", href: "/dashboard/reports", icon: BarChart3, roles: ["ADMIN"] },
       ]

@@ -4,9 +4,10 @@ import { getTransactionsService, createTransactionService, deleteTransactionServ
 
 //Get all transactions services(ADMIN)
 export async function getTransactionsController(req: NextApiRequest, res: NextApiResponse) {
-  const { userId } = req.query;
+  const { id } = req.query;
+  console.log(id);
   try {
-    const transactions = await getTransactionsService(userId as string | undefined);
+    const transactions = await getTransactionsService(id as string | undefined);
     return res.status(200).json(transactions);
   } catch (error) {
     return res.status(500).json({ error: "Error al obtener movimientos" });

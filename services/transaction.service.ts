@@ -19,6 +19,7 @@ export async function getTransactionsService(userId?: string) {
       concept: true,
       amount: true,
       date: true,
+      type:true,
       user: {
         select: {
           name: true,
