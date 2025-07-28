@@ -35,9 +35,9 @@ export async function getDashboardSummaryService(id?: string) {
   };
 }
 
-export async function getRecentTransactionsService(userId?: string) {
+export async function getRecentTransactionsService(id?: string) {
   return await prisma.transaction.findMany({
-    where: userId ? { userId } : {},
+    where: id ? { id } : {},
     orderBy: { date: "desc" },
     take: 4,
     select: {

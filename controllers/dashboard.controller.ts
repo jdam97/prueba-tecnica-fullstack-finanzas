@@ -23,10 +23,10 @@ export async function getRecentTransactionsController(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const userId = req.query.userId as string | undefined;
+  const id = req.query.id as string | undefined;
 
   try {
-    const recent = await getRecentTransactionsService(userId);
+    const recent = await getRecentTransactionsService(id);
     return res.status(200).json(recent);
   } catch (error) {
     console.error("Error en movimientos recientes:", error);
