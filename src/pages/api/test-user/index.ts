@@ -1,7 +1,7 @@
 // src/pages/api/test-user.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/lib/auth/prisma";
-import auth from "@/lib/auth";
+import {auth} from "@/lib/auth";
 
 function convertHeaders(incomingHeaders: any): Headers {
   const headers = new Headers();
@@ -74,13 +74,13 @@ export default async function handler(
       console.log("✅ Session resultado:", sessionResult);
     } catch (error) {
       sessionError = error;
-      console.error("❌ Error al obtener sesión:", error.message);
+      console.error("❌ Error al obtener sesión:", (error as any).message);
     }
 
     // 3. También probar método alternativo
     console.log("\n=== PROBANDO MÉTODO ALTERNATIVO ===");
     let alternativeSession = null;
-
+    sessionError instanceof Error ? sessionError.message : null
     try {
       alternativeSession = await auth.api.getSession({
         headers: {
@@ -88,11 +88,11 @@ export default async function handler(
           authorization: req.headers.authorization || "",
           "user-agent": req.headers["user-agent"] || "",
           host: req.headers.host || "",
-        },
+        } as any,
       });
       console.log("✅ Sesión método alternativo:", alternativeSession);
     } catch (altError) {
-      console.error("❌ Error método alternativo:", altError.message);
+      console.error("❌ Error método alternativo:", JSON.stringify(altError));
     }
 
     // 4. Respuesta completa con toda la información
@@ -104,7 +104,7 @@ export default async function handler(
       session: {
         betterAuthSession: sessionResult,
         alternativeSession: alternativeSession,
-        sessionError: sessionError?.message || null,
+        sessionError: sessionError instanceof Error ? sessionError.message : null,
       },
 
       // Debug info
@@ -129,12 +129,22 @@ export default async function handler(
           user.email,
       },
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("💥 Error en el servidor:", error);
+  
+    // Variables para mensaje y stack
+    let message = "Error desconocido";
+    let stack = undefined;
+  
+    if (error instanceof Error) {
+      message = error.message;
+      stack = error.stack;
+    }
+  
     return res.status(500).json({
       error: "Error interno del servidor",
-      details: error.message,
-      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+      details: message,
+      stack: process.env.NODE_ENV === "development" ? stack : undefined,
     });
   }
 }

@@ -1,4 +1,3 @@
-import { any } from "better-auth";
 import {
   getAllUsersService,
   editUserByIdService,
@@ -14,7 +13,7 @@ export async function getAllUsersController(
     const users = await getAllUsersService();
     return res.status(200).json(users);
   } catch (e) {
-    return res.status(500).json({ error: "Error interno" });
+    return res.status(500).json({ error: "Error interno" + e });
   }
 }
 
@@ -33,7 +32,8 @@ export async function editUserByIdController(
     const updatedUser = await editUserByIdService(id, { name, role, email });
     return res.status(200).json(updatedUser);
   } catch (error) {
-    console.error("Error editando usuario:", error);
-    return res.status(500).json({ error: "Error interno del servidor" });
+    return res
+      .status(500)
+      .json({ error: "Error interno del servidor" + error });
   }
 }

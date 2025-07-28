@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import {
   Card,
@@ -10,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Github } from "lucide-react";
 import { authClient } from "@/lib/auth/client";
 
-function login() {
+const Login = () => {
   const [loading, setLoading] = useState(false);
 
   const handleGithubLogin = async () => {
@@ -22,9 +23,6 @@ function login() {
       });
       console.log(res);
       // Ahora deberías ver el role en la respuesta
-      if (res.data?.user) {
-        console.log("User role:", res.data.user.role);
-      }
     } catch (error) {
       console.error("Error al iniciar sesión con GitHub:", error);
     } finally {
@@ -57,5 +55,5 @@ function login() {
       </Card>
     </div>
   );
-}
-export default login;
+};
+export default Login;

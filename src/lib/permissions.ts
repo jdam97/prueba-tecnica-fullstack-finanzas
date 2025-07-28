@@ -1,5 +1,5 @@
 // lib/permissions.ts
-import auth from "@/lib/auth";
+import {auth} from "@/lib/auth";
 
 export async function checkUserPermissions(headers: Headers) {
   try {

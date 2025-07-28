@@ -17,7 +17,9 @@ export async function getTransactionsController(
     const transactions = await getTransactionsService(id as string | undefined);
     return res.status(200).json(transactions);
   } catch (error) {
-    return res.status(500).json({ error: "Error al obtener movimientos" });
+    return res
+      .status(500)
+      .json({ error: "Error al obtener movimientos" + error });
   }
 }
 
@@ -43,7 +45,9 @@ export async function createTransactionController(
     return res.status(201).json(newTransaction);
   } catch (error) {
     console.error(" Error creando transacción:", error);
-    return res.status(500).json({ error: "Error al crear el movimiento" });
+    return res
+      .status(500)
+      .json({ error: "Error al crear el movimiento" + error });
   }
 }
 
@@ -63,6 +67,8 @@ export async function deleteTransactionController(
       .status(200)
       .json({ message: "Movimiento eliminado correctamente" });
   } catch (error) {
-    return res.status(500).json({ error: "Error al eliminar movimiento" });
+    return res
+      .status(500)
+      .json({ error: "Error al eliminar movimiento" + error });
   }
 }

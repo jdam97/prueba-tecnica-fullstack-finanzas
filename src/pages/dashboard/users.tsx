@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -26,12 +26,13 @@ type User = {
 export default function UsersPage() {
   const { data: session, isPending } = useSession();
   const user = session?.user;
+  const userAny = (user as any);
   const router = useRouter();
 
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    if (!isPending && user?.role !== "ADMIN") {
+    if (!isPending && userAny?.role !== "ADMIN") {
       router.push("/unauthorized");
     }
   }, [isPending, user, router]);
@@ -47,12 +48,12 @@ export default function UsersPage() {
       }
     };
 
-    if (user?.role === "ADMIN") {
+    if (userAny?.role === "ADMIN") {
       fetchUsers();
     }
   }, [user]);
 
-  if (!session || session.user?.role !== "ADMIN") {
+  if (!session || (session.user as any)?.role !== "ADMIN") {
     return null;
   }
 

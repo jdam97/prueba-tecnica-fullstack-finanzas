@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useSession } from "@/lib/auth/client";
 
-export function MovementForm({ onSuccess }: { onSuccess?: () => void }) {
+export const MovementForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
     concept: "",
@@ -113,4 +113,4 @@ export function MovementForm({ onSuccess }: { onSuccess?: () => void }) {
       </DialogContent>
     </Dialog>
   );
-}
+};

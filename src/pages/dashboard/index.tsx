@@ -7,9 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { DollarSign, TrendingDown, TrendingUp, Users } from "lucide-react";
-import { useSession, signOut } from "@/lib/auth/client";
+import { useSession } from "@/lib/auth/client";
 
-function dashboard() {
+export const Dashboard = () => {
   const [dataSumary, setDataSumary] = useState({
     totalIncome: 0,
     totalExpense: 0,
@@ -19,6 +19,7 @@ function dashboard() {
   const [recentMovements, setRecentMovements] = useState([]);
   const { data: session, isPending } = useSession();
   const user = session?.user;
+  const userAny = user as any;
 
   //summary
   const getSummaryData = async (user: any) => {
@@ -78,7 +79,7 @@ function dashboard() {
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              {user?.role === "ADMIN" ? "Ingresos Totales" : "Mis Ingresos"}
+              {userAny?.role === "ADMIN" ? "Ingresos Totales" : "Mis Ingresos"}
             </CardTitle>
             <TrendingUp className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
@@ -92,7 +93,7 @@ function dashboard() {
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              {user?.role === "ADMIN" ? "Egresos Totales" : "Mis Egresos"}
+              {userAny?.role === "ADMIN" ? "Egresos Totales" : "Mis Egresos"}
             </CardTitle>
             <TrendingDown className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
@@ -106,7 +107,7 @@ function dashboard() {
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              {user?.role === "ADMIN" ? "Balance Total" : "Mi Balance"}
+              {userAny?.role === "ADMIN" ? "Balance Total" : "Mi Balance"}
             </CardTitle>
             <DollarSign className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
@@ -121,7 +122,7 @@ function dashboard() {
           </CardContent>
         </Card>
 
-        {user?.role === "ADMIN" && (
+        {userAny?.role === "ADMIN" && (
           <Card>
             <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
               <CardTitle className='text-sm font-medium'>
@@ -141,7 +142,7 @@ function dashboard() {
           <CardHeader>
             <CardTitle>Movimientos Recientes</CardTitle>
             <CardDescription>
-              {user?.role === "ADMIN"
+              {userAny?.role === "ADMIN"
                 ? "Últimos movimientos del sistema"
                 : "Tus últimos movimientos"}
             </CardDescription>
@@ -150,20 +151,20 @@ function dashboard() {
             <div className='space-y-4'>
               {recentMovements.map((movement) => (
                 <div
-                  key={movement?.id}
+                  key={(movement as any)?.id}
                   className='flex items-center justify-between'
                 >
                   <div>
-                    <p className='font-medium'>{movement.concept}</p>
+                    <p className='font-medium'>{(movement as any).concept}</p>
                     <p className='text-sm text-gray-600'>
-                      {movement.date} • {movement.userName}
+                      {(movement as any).date} • {(movement as any).userName}
                     </p>
                   </div>
                   <div
-                    className={`font-bold ${movement.type === "INCOME" ? "text-green-600" : "text-red-600"}`}
+                    className={`font-bold ${(movement as any).type === "INCOME" ? "text-green-600" : "text-red-600"}`}
                   >
-                    {movement.type === "INCOME" ? "+" : "-"}$
-                    {movement.amount.toLocaleString("es-CO")}
+                    {(movement as any).type === "INCOME" ? "+" : "-"}$
+                    {(movement as any).amount.toLocaleString("es-CO")}
                   </div>
                 </div>
               ))}
@@ -204,5 +205,4 @@ function dashboard() {
       </div>
     </div>
   );
-}
-export default dashboard;
+};

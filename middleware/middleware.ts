@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import auth from "@/lib/auth/index";
+import {auth} from "@/lib/auth/index";
 
 export interface AuthenticatedRequest extends NextApiRequest {
   user?: {
@@ -45,7 +45,10 @@ export async function requireAuth(
     }
 
     // Agregar datos del usuario al request
-    req.user = session.user;
+    req.user = {
+      ...session.user,
+      role: session.user.role as "ADMIN" | "USER",
+    };
     req.session = session;
 
     console.log(

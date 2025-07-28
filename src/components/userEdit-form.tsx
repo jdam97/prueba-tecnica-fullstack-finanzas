@@ -28,7 +28,7 @@ type Props = {
   };
 };
 
-export function UserEditForm({ user }: Props) {
+export const UserEditForm = ({ user }: Props) => {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
@@ -50,7 +50,9 @@ export function UserEditForm({ user }: Props) {
         setOpen(false);
 
         // 🚨 Cierra sesión si el usuario se autoedita y cambia su rol
-        if (session?.user?.id === user.id && session.user.role !== role) {
+        const sessionTyped = session as any; // FORZAR tipo any para evitar error TS
+
+        if (sessionTyped?.user?.id === user.id && sessionTyped.user.role !== role) {
           await signOut();
           window.location.href = "/login";
         } else {
@@ -97,7 +99,7 @@ export function UserEditForm({ user }: Props) {
             <Select
               value={role}
               onValueChange={(value) => setRole(value as "ADMIN" | "USER")}
-              //   disabled={isSelfEditing} // 🔒 evita que se cambie su propio rol (opcional)
+            //   disabled={isSelfEditing} // 🔒 evita que se cambie su propio rol (opcional)
             >
               <SelectTrigger>
                 <SelectValue placeholder='Seleccionar rol' />

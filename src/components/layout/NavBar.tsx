@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   DropdownMenu,
@@ -20,8 +21,9 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useSession, signOut } from "@/lib/auth/client";
 
-export default function NavBar() {
-  const { data: session, isPending: loading } = useSession();
+  const NavBar = () => {
+  const pathname = usePathname();
+  const { data: session } = useSession();
   const navigation = [
     {
       name: "Dashboard",
@@ -48,11 +50,13 @@ export default function NavBar() {
       roles: ["ADMIN"],
     },
   ];
-  const user = session?.user;
+  if (!session || !session.user) return null;
+  const user = session.user as typeof session.user & { role: "ADMIN" | "USER" };
+
   const filteredNavigation = navigation.filter(
     (item) => user && item.roles.includes(user.role)
   );
-  const pathname = usePathname();
+ 
 
   return (
     <nav className='border-b bg-white'>
@@ -123,4 +127,5 @@ export default function NavBar() {
       </div>
     </nav>
   );
-}
+};
+export default NavBar;

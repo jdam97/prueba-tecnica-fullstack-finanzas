@@ -1,12 +1,5 @@
 "use client";
-
-import {
-  DollarSign,
-  Download,
-  TrendingDown,
-  TrendingUp,
-  Users,
-} from "lucide-react";
+import { DollarSign, Download, TrendingDown, TrendingUp } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -19,7 +12,7 @@ import { useSession } from "@/lib/auth/client";
 import { useEffect, useState } from "react";
 import router from "next/router";
 
-export default function Reports() {
+export const Reports = () => {
   const [summary, setSummary] = useState({
     totalIncome: 0,
     totalExpense: 0,
@@ -32,11 +25,12 @@ export default function Reports() {
 
   const { data: session, isPending } = useSession();
   const user = session?.user;
+  const userAny = user as any;
 
   const getSummaryData = async () => {
     try {
       const endpoint =
-        user?.role === "ADMIN"
+      userAny?.role === "ADMIN"
           ? "/api/dashboard/summary"
           : `/api/dashboard/summary?id=${user?.id}`;
 
@@ -65,7 +59,6 @@ export default function Reports() {
     incomeCount,
     expenseCount,
     totalTransactions,
-    totalUsers,
   } = summary;
 
   const incomePercentage =
@@ -75,6 +68,7 @@ export default function Reports() {
   const expensePercentage = 100 - incomePercentage;
 
   const downloadCSV = () => {
+    if (typeof window === "undefined") return;
     const csvContent = [
       "Total Income,Total Expense,Balance,Income Count,Expense Count,Total Transactions",
       `${totalIncome},${totalExpense},${balance},${incomeCount},${expenseCount},${totalTransactions}`,
@@ -82,6 +76,7 @@ export default function Reports() {
 
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
+    // eslint-disable-next-line no-undef
     const a = document.createElement("a");
     a.href = url;
     a.download = "resumen_financiero.csv";
@@ -90,12 +85,12 @@ export default function Reports() {
   };
 
   useEffect(() => {
-    if (!isPending && user?.role !== "ADMIN") {
+    if (!isPending && userAny?.role !== "ADMIN") {
       router.push("/unauthorized");
     }
   }, [isPending, user, router]);
 
-  if (user?.role !== "ADMIN") return null;
+  if (userAny?.role !== "ADMIN") return null;
 
   return (
     <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4'>
@@ -220,4 +215,4 @@ export default function Reports() {
       </div>
     </div>
   );
-}
+};

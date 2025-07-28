@@ -31,12 +31,13 @@ interface Movement {
 export default function MovementsPage() {
   const { data: session, isPending } = useSession();
   const user = session?.user;
+  const userAny = (user as any);
   const [movements, setMovements] = useState<Movement[]>([]);
 
   const fetchMovements = async () => {
     try {
       const endpoint =
-        user?.role === "ADMIN"
+      userAny?.role === "ADMIN"
           ? "/api/transactions"
           : `/api/transactions?id=${user?.id}`;
 
@@ -75,12 +76,12 @@ export default function MovementsPage() {
         <div>
           <h1 className='text-3xl font-bold text-gray-900'>Movimientos</h1>
           <p className='text-gray-600'>
-            {user?.role === "ADMIN"
+            {userAny?.role === "ADMIN"
               ? "Gestiona todos los movimientos"
               : "Gestiona tus movimientos"}
           </p>
         </div>
-        {user?.role === "ADMIN" && <MovementForm onSuccess={fetchMovements} />}
+        {userAny?.role === "ADMIN" && <MovementForm onSuccess={fetchMovements} />}
       </div>
 
       <Card>
@@ -96,7 +97,7 @@ export default function MovementsPage() {
                 <TableHead>Tipo</TableHead>
                 <TableHead>Fecha</TableHead>
                 <TableHead>Usuario</TableHead>
-                {user?.role === "ADMIN" && <TableHead>Acciones</TableHead>}
+                {userAny?.role === "ADMIN" && <TableHead>Acciones</TableHead>}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -118,7 +119,7 @@ export default function MovementsPage() {
                   <TableCell>
                     <Badge
                       variant={
-                        movement.type === "INCOME" ? "default" : "Ingreso"
+                        movement.type === "INCOME" ? "default" : "destructive"
                       }
                     >
                       {movement.type === "INCOME" ? "Ingreso" : "Egreso"}
@@ -128,7 +129,7 @@ export default function MovementsPage() {
                     {new Date(movement.date).toLocaleDateString("es-CO")}
                   </TableCell>
                   <TableCell>{movement.user?.name ?? "Sin nombre"}</TableCell>
-                  {user?.role === "ADMIN" && (
+                  {userAny?.role === "ADMIN" && (
                     <TableCell>
                       <Button
                         variant='outline'
