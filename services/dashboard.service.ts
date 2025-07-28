@@ -1,21 +1,21 @@
 import { prisma } from "@/lib/auth/prisma";
 
-export async function getDashboardSummaryService(id?: string) {
+export async function getDashboardSummaryService(userId ?: string) {
   const [income, expense, incomeCount, expenseCount, userCount] =
     await Promise.all([
       prisma.transaction.aggregate({
-        where: { ...(id ? { id } : {}), type: "INCOME" },
+        where: { ...(userId  ? { userId  } : {}), type: "INCOME" },
         _sum: { amount: true },
       }),
       prisma.transaction.aggregate({
-        where: { ...(id ? { id } : {}), type: "EXPENSE" },
+        where: { ...(userId  ? { userId  } : {}), type: "EXPENSE" },
         _sum: { amount: true },
       }),
       prisma.transaction.count({
-        where: { ...(id ? { id } : {}), type: "INCOME" },
+        where: { ...(userId  ? { userId  } : {}), type: "INCOME" },
       }),
       prisma.transaction.count({
-        where: { ...(id ? { id } : {}), type: "EXPENSE" },
+        where: { ...(userId  ? { userId  } : {}), type: "EXPENSE" },
       }),
       prisma.user.count(),
     ]);
@@ -31,13 +31,13 @@ export async function getDashboardSummaryService(id?: string) {
     incomeCount,
     expenseCount,
     totalTransactions,
-    totalUsers: id ? undefined : userCount,
+    totalUsers: userId  ? undefined : userCount,
   };
 }
 
-export async function getRecentTransactionsService(id?: string) {
+export async function getRecentTransactionsService(userId ?: string) {
   return await prisma.transaction.findMany({
-    where: id ? { id } : {},
+    where: userId  ? { userId  } : {},
     orderBy: { date: "desc" },
     take: 4,
     select: {
