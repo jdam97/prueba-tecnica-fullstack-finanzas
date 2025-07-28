@@ -45,7 +45,7 @@ npm run dev
 ## 🧾 Swagger Docs
 
 📄 Documentación completa de los endpoints:  
-[https://fullstack-finanzas-next.vercel.app/api/docs](https://fullstack-finanzas-next.vercel.app/api/docs)
+[https://fullstack-finanzas-next.vercel.app/docs](https://fullstack-finanzas-next.vercel.app/docs)
 
 ---
 
