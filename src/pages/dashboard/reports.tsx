@@ -12,7 +12,7 @@ import { useSession } from "@/lib/auth/client";
 import { useEffect, useState } from "react";
 import router from "next/router";
 
-export const Reports = () => {
+const Reports = () => {
   const [summary, setSummary] = useState({
     totalIncome: 0,
     totalExpense: 0,
@@ -216,3 +216,4 @@ export const Reports = () => {
     </div>
   );
 };
+export default Reports;

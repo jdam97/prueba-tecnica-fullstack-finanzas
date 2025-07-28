@@ -9,7 +9,7 @@ import {
 import { DollarSign, TrendingDown, TrendingUp, Users } from "lucide-react";
 import { useSession } from "@/lib/auth/client";
 
-export const Dashboard = () => {
+const Dashboard = () => {
   const [dataSumary, setDataSumary] = useState({
     totalIncome: 0,
     totalExpense: 0,
@@ -206,3 +206,4 @@ export const Dashboard = () => {
     </div>
   );
 };
+export default Dashboard;
