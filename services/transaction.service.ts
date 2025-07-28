@@ -1,4 +1,3 @@
-// services/transaction.service.ts
 import { prisma } from "@/lib/auth/prisma";
 
 type NewTransactionInput = {
