@@ -8,7 +8,7 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   {
     files: ["**/*.ts", "**/*.tsx"],
-    ignores: ["node_modules", ".next", "dist"],
+    ignores: ["node_modules", ".next", "dist","src/__tests__/*"],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {

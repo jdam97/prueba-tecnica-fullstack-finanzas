@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import { getTransactionsService } from "../../services/transaction.service";
 
 describe("getTransactionsService", () => {

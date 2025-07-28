@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import { getAllUsersService } from "../../services/user.service";
 
 describe("getAllUsersService", () => {

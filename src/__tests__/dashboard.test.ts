@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import { getDashboardSummaryService } from "../../services/dashboard.service";
 
 describe("getDashboardSummaryService", () => {
