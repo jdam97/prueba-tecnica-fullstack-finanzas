@@ -16,19 +16,19 @@ const swaggerSpec = {
       },
     ],
     components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
+        securitySchemes: {
+          cookieAuth: {
+            type: "apiKey",
+            in: "cookie",
+            name: "better-auth.session_token",
+          },
         },
       },
-    },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
+      security: [
+        {
+          cookieAuth: [],
+        },
+      ],
     tags: [
       { name: "Dashboard" },
       { name: "Transactions" },
